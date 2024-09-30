@@ -3,9 +3,6 @@ package com.canvas.paint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.SeekBar
-import com.canvas.paint.view.Custom2View
-import com.canvas.paint.view.Custom3View
-import com.canvas.paint.view.CustomView
 import com.canvas.paint.view.TextArc
 
 class MainActivity : AppCompatActivity() {
@@ -20,6 +17,8 @@ class MainActivity : AppCompatActivity() {
 
         // Đặt giá trị mặc định cho SeekBar
         seekBar.max = 180 // Giá trị tối đa
+
+        customView.setText("Tuấn đẹp trai")
 
         // Thay đổi độ cong khi SeekBar được di chuyển
         seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {

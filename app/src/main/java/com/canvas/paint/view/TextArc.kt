@@ -4,12 +4,6 @@ import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
-import androidx.core.content.res.ResourcesCompat
-import com.canvas.paint.R
-
-/**
- * Text arc in Kotlin.
- */
 class TextArc @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
@@ -29,6 +23,7 @@ class TextArc @JvmOverloads constructor(
 
     private val path = Path()
     private var controlPointY = 500f // Giá trị Y mặc định cho điểm điều khiển
+    private var text = "Hello, this is a curved text!" // Văn bản sẽ hiển thị
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
@@ -36,19 +31,24 @@ class TextArc @JvmOverloads constructor(
         // Đặt lại Path
         path.reset()
 
-        // Vẽ đường cong từ (100, 500) đến (600, 500)
-        path.moveTo(100f, 500f)
-        path.quadTo(350f, controlPointY, 600f, 500f)
+        // Tính chiều dài của văn bản
+        val textLength = paint.measureText(text)
+
+        // Xác định điểm bắt đầu và kết thúc dựa trên chiều dài văn bản
+        val startX = (width / 2 - textLength / 2) // Bắt đầu ở giữa màn hình
+        val endX = (width / 2 + textLength / 2)   // Kết thúc ở giữa màn hình
+
+        // Vẽ đường cong từ startX đến endX
+        path.moveTo(startX, 500f)
+        path.quadTo(width / 2F, controlPointY, endX, 500f)
 
         // Vẽ đường cong trên Canvas
         canvas.drawPath(path, paint)
 
         // Vẽ văn bản theo đường cong
-        val text = "Hello, this is a curved text!"
         paint.color = Color.BLUE // Màu văn bản
         canvas.drawTextOnPath(text, path, 0f, 0f, paint) // Vẽ văn bản theo đường cong
     }
-
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val desiredWidth = 800 // Chiều rộng tối đa của CustomView
@@ -87,5 +87,10 @@ class TextArc @JvmOverloads constructor(
             }
         }
         invalidate() // Yêu cầu vẽ lại
+    }
+
+    fun setText(newText: String) {
+        text = newText
+        invalidate() // Yêu cầu vẽ lại khi có văn bản mới
     }
 }
