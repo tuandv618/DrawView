@@ -3,7 +3,7 @@ import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
-class TextPath @JvmOverloads constructor(
+class TextPath  @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -14,13 +14,13 @@ class TextPath @JvmOverloads constructor(
         strokeWidth = 5f
         style = Paint.Style.STROKE
         isAntiAlias = true
-        textSize = 60f  // Đặt kích thước văn bản (bạn có thể thay đổi giá trị này)
+        textSize = 60f  // Đặt kích thước văn bản
     }
 
     private val path = Path()
 
-    // Biến để lưu trữ độ cong (0 là thẳng, giá trị cao hơn là cong nhiều hơn)
-    private var curvature = 0f
+    // Biến để lưu trữ độ cong (0 là thẳng, giá trị lớn hơn 180 thì cong xuống, nhỏ hơn 180 thì cong ngược lên)
+    private var curvature = 180f // Mặc định đặt curvature ở 180
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
@@ -36,19 +36,39 @@ class TextPath @JvmOverloads constructor(
         // Tạo hình chữ nhật với chiều dài tương ứng với độ dài văn bản
         val left = (viewWidth - textLength) / 2 // Căn giữa theo chiều ngang
         val right = left + textLength
-        val top = viewHeight * 0.5f - curvature // Điều chỉnh chiều cao trên theo độ cong
-        val bottom = viewHeight * 0.5f + curvature // Điều chỉnh chiều cao dưới theo độ cong
+        val top: Float
+        val bottom: Float
 
-        val rectF = RectF(left, top, right, bottom)
+        // Tính toán độ cong dựa trên giá trị của SeekBar
+        when {
+            curvature > 180 -> { // Nếu lớn hơn 180 thì giống cái đầu (vòng cung đi lên)
+                top = viewHeight * 0.5f - (curvature - 180) // Tính toán chiều cao trên
+                bottom = viewHeight * 0.5f + (curvature - 180) // Tính toán chiều cao dưới
+                // Vẽ vòng cung bình thường
+                path.reset()
+                path.addArc(RectF(left, top, right, bottom), 180f, 180f)  // Đường cong xuống
 
-        // Vẽ vòng cung đối xứng từ -180 đến 180 độ (nửa trên của hình elip)
-        path.reset()
-        path.addArc(rectF, 180f, 180f)  // Đường cong sẽ được tạo ra với chiều dài bằng chiều dài văn bản
+            }
+            curvature < 180 -> { // Nếu nhỏ hơn 180 thì giống vòng cung đi xuống
+                val downCurve = 180 - curvature  // Điều chỉnh độ cong
+                top = viewHeight * 0.5f - downCurve // Tính toán chiều cao trên
+                bottom = viewHeight * 0.5f + downCurve // Tính toán chiều cao dưới
+                path.reset()
+                path.addArc(RectF(left, top, right, bottom), 180f, -180f)  // Đường cong xuống
+            }
+            else -> { // Nếu bằng 180 thì thẳng
+                top = viewHeight * 0.5f
+                bottom = viewHeight * 0.5f
+                path.reset()  // Đường thẳng
+                path.moveTo(left, top)
+                path.lineTo(right, top)
+            }
+        }
 
         // Vẽ Path lên canvas
         canvas.drawPath(path, paint)
 
-        // Tính toán độ dài của path (nó sẽ bằng chiều dài văn bản)
+        // Tính toán độ dài của path
         val measure = PathMeasure(path, false)
         val pathLength = measure.length
 
@@ -59,6 +79,8 @@ class TextPath @JvmOverloads constructor(
         measure.getPosTan(startPos, pos, null) // Lấy vị trí và góc của văn bản
         canvas.drawTextOnPath(text, path, startPos, 0f, paint)
     }
+
+
 
     // Hàm cập nhật độ cong
     fun setCurvature(value: Float) {
