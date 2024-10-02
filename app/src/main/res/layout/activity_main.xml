@@ -6,24 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.canvas.paint.view.TextArc
-        android:id="@+id/tvArc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <com.canvas.paint.view.TextArc
+    <com.canvas.paint.view.TextPath
         android:id="@+id/tvArc2"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/tvArc"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/seekBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <SeekBar
         android:id="@+id/seekBar"
@@ -31,16 +22,9 @@
         android:layout_height="wrap_content"
         android:max="360"
         android:progress="180"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvArc" />
+        android:layout_marginBottom="100dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
-    <Button
-        android:id="@+id/btn50"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="btn50"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seekBar" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
