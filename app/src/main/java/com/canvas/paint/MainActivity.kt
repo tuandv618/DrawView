@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         seekBar = findViewById(R.id.seekBar)
 
         // Đặt giá trị mặc định cho SeekBar
-        seekBar.max = 90 // Giá trị tối đa
+        seekBar.max = 360 // Giá trị tối đa
 
         customView.setText("Tuấn đẹp trai\nTuấn đẹp trai")
 

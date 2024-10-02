@@ -22,7 +22,7 @@ class TextArc @JvmOverloads constructor(
     }
 
     private val path = Path()
-    private var controlPointY = 200f // Giá trị Y mặc định cho điểm điều khiển
+    private var controlPointY = 360F // Giá trị Y mặc định cho điểm điều khiển
     private var text = "Hello, this is a curved text!" // Văn bản sẽ hiển thị
 
     override fun onDraw(canvas: Canvas) {
@@ -98,11 +98,11 @@ class TextArc @JvmOverloads constructor(
 
         // Điều chỉnh controlPointY theo hệ số này để đảm bảo độ cong đồng nhất
         controlPointY = when {
-            progress <= 50 -> {
-                200f + (50f - progress) * 6 * textLengthRatio // Điều chỉnh dựa trên tỷ lệ
+            progress <= 180 -> {
+                360F + (180f - progress) * 2 * textLengthRatio // Điều chỉnh dựa trên tỷ lệ
             }
             else -> {
-                200f - (progress - 50) * 6 * textLengthRatio
+                360F - (progress - 180F) * 2 * textLengthRatio
             }
         }
         invalidate() // Yêu cầu vẽ lại
