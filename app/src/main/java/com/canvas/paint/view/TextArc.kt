@@ -17,12 +17,12 @@ class TextArc @JvmOverloads constructor(
         color = Color.RED
         strokeWidth = 5f
         style = Paint.Style.STROKE
-        textSize = 40f // Kích thước chữ
+        textSize = 60f // Kích thước chữ
         textAlign = Paint.Align.CENTER
     }
 
     private val path = Path()
-    private var controlPointY = 500f // Giá trị Y mặc định cho điểm điều khiển
+    private var controlPointY = 200f // Giá trị Y mặc định cho điểm điều khiển
     private var text = "Hello, this is a curved text!" // Văn bản sẽ hiển thị
 
     override fun onDraw(canvas: Canvas) {
@@ -31,28 +31,42 @@ class TextArc @JvmOverloads constructor(
         // Đặt lại Path
         path.reset()
 
-        // Tính chiều dài của văn bản
-        val textLength = paint.measureText(text)
+        // Chia văn bản thành các dòng
+        val lines = text.split("\n")
+        val lineHeight = 50f // Chiều cao mỗi dòng, bạn có thể điều chỉnh giá trị này
 
-        // Xác định điểm bắt đầu và kết thúc dựa trên chiều dài văn bản
-        val startX = (width / 2 - textLength / 2) // Bắt đầu ở giữa màn hình
-        val endX = (width / 2 + textLength / 2)   // Kết thúc ở giữa màn hình
+        // Vẽ từng dòng theo đường cong
+        for ((index, line) in lines.withIndex()) {
+            // Tính chiều dài của từng dòng
+            val textLength = paint.measureText(line)
 
-        // Vẽ đường cong từ startX đến endX
-        path.moveTo(startX, 500f)
-        path.quadTo(width / 2F, controlPointY, endX, 500f)
+            // Xác định điểm bắt đầu và kết thúc dựa trên chiều dài văn bản
+            val startX = (width / 2 - textLength / 2)
+            val endX = (width / 2 + textLength / 2)
 
-        // Vẽ đường cong trên Canvas
-        canvas.drawPath(path, paint)
+            // Đặt đường cong cho từng dòng
+            path.reset()
+            path.moveTo(startX, height / 2f + (index * lineHeight)*2) // Điều chỉnh vị trí Y cho từng dòng
+            path.quadTo(width / 2F, controlPointY + (index * lineHeight)*2, endX, height / 2f + (index * lineHeight)*2)
 
-        // Vẽ văn bản theo đường cong
-        paint.color = Color.BLUE // Màu văn bản
-        canvas.drawTextOnPath(text, path, 0f, 0f, paint) // Vẽ văn bản theo đường cong
+            // Vẽ đường cong trên Canvas
+
+            paint.color = Color.RED
+            canvas.drawPath(path, paint)
+
+            // Vẽ văn bản theo đường cong
+            paint.color = Color.BLUE
+            canvas.drawTextOnPath(line, path, 0f, 0f, paint)
+        }
     }
 
+
+
+
+
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        val desiredWidth = 800 // Chiều rộng tối đa của CustomView
-        val desiredHeight = 800 // Chiều cao tối đa của CustomView
+        val desiredWidth = (paint.measureText(text) + paddingLeft + paddingRight).toInt() // Chiều rộng dựa trên chiều dài văn bản
+        val desiredHeight = (controlPointY + paddingTop + paddingBottom).toInt() // Chiều cao tối đa của đường cong
 
         val widthMode = MeasureSpec.getMode(widthMeasureSpec)
         val widthSize = MeasureSpec.getSize(widthMeasureSpec)
@@ -71,23 +85,29 @@ class TextArc @JvmOverloads constructor(
             else -> desiredHeight
         }
 
-        setMeasuredDimension(width, height)
+        setMeasuredDimension(width, height*2)
     }
 
+
     fun updateControlPoint(progress: Float) {
-        // Điều chỉnh độ cong theo progress
+        val lines = text.split("\n")
+        val maxTextLength = lines.maxOf { paint.measureText(it) } // Tính độ dài dòng dài nhất
+
+        // Tạo hệ số tỷ lệ dựa trên chiều dài văn bản so với chiều rộng view
+        val textLengthRatio = maxTextLength / width
+
+        // Điều chỉnh controlPointY theo hệ số này để đảm bảo độ cong đồng nhất
         controlPointY = when {
-            progress <= 90 -> {
-                // Kéo xuống từ 500f cho đến 0f tại 90 độ
-                500f + (90f - progress) * 4 // Tăng độ di chuyển
+            progress <= 50 -> {
+                200f + (50f - progress) * 6 * textLengthRatio // Điều chỉnh dựa trên tỷ lệ
             }
             else -> {
-                // Kéo lên từ 500f cho đến 0f tại 180 độ
-                500f - (progress - 90) * 4 // Tăng độ di chuyển
+                200f - (progress - 50) * 6 * textLengthRatio
             }
         }
         invalidate() // Yêu cầu vẽ lại
     }
+
 
     fun setText(newText: String) {
         text = newText
