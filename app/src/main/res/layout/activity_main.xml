@@ -6,11 +6,27 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-
-    <com.canvas.paint.view.TextPath
-        android:id="@+id/tvArc2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <com.canvas.paint.drawview.views.DrawView
+        android:id="@+id/draw_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:dv_draw_alpha="255"
+        app:dv_draw_anti_alias="true"
+        app:dv_draw_color="@color/black"
+        app:dv_draw_corners="round"
+        app:dv_draw_dither="false"
+        app:dv_draw_enable_zoom="false"
+        app:dv_draw_font_family="default_font"
+        app:dv_draw_font_size="12"
+        app:dv_draw_max_zoom_factor="8"
+        app:dv_draw_mode="draw"
+        app:dv_draw_style="stroke"
+        app:dv_draw_tool="pen"
+        app:dv_draw_width="10"
+        app:dv_draw_is_camera="true"
+        app:dv_draw_zoomregion_maxscale="5"
+        app:dv_draw_zoomregion_minscale="2"
+        app:dv_draw_zoomregion_scale="4"
         app:layout_constraintBottom_toTopOf="@+id/seekBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,10 +36,56 @@
         android:id="@+id/seekBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:max="360"
-        android:progress="180"
-        android:layout_marginBottom="100dp"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        android:layout_marginBottom="24dp"
+        android:max="100"
+        android:min="1"
+        android:progress="50"
+        app:layout_constraintBottom_toTopOf="@+id/btnEraser"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnEraser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Eraser"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnRedo"
+        app:layout_constraintStart_toEndOf="@+id/btnUndo" />
+
+    <Button
+        android:id="@+id/btnUndo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Undo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnRedo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Redo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/btnRed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Red"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/seekBar"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnBLue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:text="Blue"
+        app:layout_constraintBottom_toTopOf="@+id/seekBar"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 
 

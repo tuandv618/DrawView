@@ -1,33 +1,62 @@
 package com.canvas.paint
 
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import android.widget.SeekBar
-import com.canvas.paint.view.TextPath
+import androidx.appcompat.app.AppCompatActivity
+import com.canvas.paint.drawview.enums.DrawingMode
+import com.canvas.paint.drawview.views.DrawView
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var textPath: TextPath
-    private lateinit var seekBar: SeekBar
+
+   var mDrawView : DrawView? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        textPath = findViewById(R.id.tvArc2)
-        seekBar = findViewById(R.id.seekBar)
 
-        // Thay đổi độ cong khi SeekBar được di chuyển
-        seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+        findViewById<View>(R.id.btnRedo).setOnClickListener {
+            mDrawView?.redo()
+            //mDrawView?.drawingMode = DrawingMode.ERASER
+        }
+
+        findViewById<View>(R.id.btnUndo).setOnClickListener {
+            mDrawView?.undo()
+        }
+
+        findViewById<View>(R.id.btnEraser).setOnClickListener {
+            mDrawView?.drawingMode = DrawingMode.ERASER
+        }
+
+        findViewById<View>(R.id.btnRed).setOnClickListener {
+            mDrawView?.drawColor = Color.parseColor("#FF5722")
+        }
+
+        findViewById<View>(R.id.btnBLue).setOnClickListener {
+            mDrawView?.drawColor = Color.parseColor("#00BCD4")
+        }
+
+
+        findViewById<SeekBar>(R.id.seekBar).setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                textPath.setCurvature(progress.toFloat())
+                mDrawView?.drawWidth = progress
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                // Không cần thực hiện gì ở đây
+
             }
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                // Không cần thực hiện gì ở đây
+
             }
+
         })
+
+        mDrawView = findViewById(R.id.draw_view)
     }
+
+
+
 
 }
