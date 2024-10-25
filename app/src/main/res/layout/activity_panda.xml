@@ -14,48 +14,8 @@
             android:id="@+id/customView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#FFFFFF" />
+            android:background="#000000" />
 
-        <LinearLayout
-            android:gravity="center_horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="bottom|center"
-            android:background="#88000000"
-            android:padding="16dp">
-
-            <Button
-                android:id="@+id/basicBrushButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Basic Brush" />
-
-            <Button
-                android:id="@+id/softBrushButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Soft Brush" />
-
-            <Button
-                android:id="@+id/patternedBrushButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Patterned Brush" />
-
-            <Button
-                android:id="@+id/sprayBrushButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Spray Brush" />
-
-            <Button
-                android:id="@+id/calligraphyBrushButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Calligraphy Brush" />
-
-        </LinearLayout>
     </FrameLayout>
 
 
