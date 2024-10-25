@@ -18,5 +18,25 @@
 
     </FrameLayout>
 
+    <Button
+        android:id="@+id/btnDraw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Draw"
+        android:layout_marginBottom="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnEraser"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnEraser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Eraser"
+        android:layout_marginBottom="50dp"
+        app:layout_constraintStart_toEndOf="@id/btnDraw"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
