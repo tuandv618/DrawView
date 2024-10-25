@@ -15,6 +15,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        // Xin chào
 
         findViewById<View>(R.id.btnRedo).setOnClickListener {
             mDrawView?.redo()
@@ -30,11 +31,17 @@ class MainActivity : AppCompatActivity() {
         }
 
         findViewById<View>(R.id.btnRed).setOnClickListener {
+            mDrawView?.drawingMode = DrawingMode.DRAW
             mDrawView?.drawColor = Color.parseColor("#FF5722")
         }
 
         findViewById<View>(R.id.btnBLue).setOnClickListener {
+            mDrawView?.drawingMode = DrawingMode.DRAW
             mDrawView?.drawColor = Color.parseColor("#00BCD4")
+        }
+
+        findViewById<View>(R.id.btnBackground).setOnClickListener {
+            mDrawView?.setDrawViewBackgroundColor(Color.parseColor("#FF5722"))
         }
 
 
