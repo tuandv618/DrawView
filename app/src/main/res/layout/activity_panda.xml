@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.canvas.paint.panda.view.CustomView
+        <com.canvas.paint.panda.view.TapeView2
             android:id="@+id/customView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.canvas.paint.color.ColorPickerView
 import com.canvas.paint.color.listeners.ColorListener
-
+// Tuấn đẹp trai
 
 class PickerColorActivity : AppCompatActivity() {
     @SuppressLint("UseCompatLoadingForDrawables")
