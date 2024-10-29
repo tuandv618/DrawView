@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.canvas.paint.color.sliders;
+package com.pick.color.color.sliders;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;

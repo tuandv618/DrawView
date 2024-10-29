@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingHorizontal="20dp"
     tools:context=".PickerColorActivity">
 
     <com.canvas.paint.color.ColorPickerView
@@ -16,7 +17,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:preferenceName="Test2"
-        app:selector="@drawable/color_picker_view_pick" />
+
+        app:selector="@drawable/color_picker_view_wheel" />
+
+
+    <com.canvas.paint.color.sliders.BrightnessSlideBar
+        android:id="@+id/brightnessSlideBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:rotation="180"
+        app:layout_constraintBottom_toTopOf="@+id/btnPickColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:selector_BrightnessSlider="@drawable/color_picker_view_wheel" />
 
     <Button
         android:id="@+id/btnPickColor"
