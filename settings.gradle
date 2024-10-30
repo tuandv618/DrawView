@@ -15,4 +15,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "Paint"
 include ':app'
-include ':lib_pick_color'
