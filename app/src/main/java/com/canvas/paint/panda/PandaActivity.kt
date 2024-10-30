@@ -18,11 +18,11 @@ class PandaActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.btnEraser.setOnClickListener {
-            //binding.customView.enableEraser()
+            binding.customView.enableEraser()
         }
 
         binding.btnDraw.setOnClickListener {
-            //binding.customView.disableEraser()
+            binding.customView.disableEraser()
         }
 
 
