@@ -31,11 +31,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btUndo.setOnClickListener {
-            //binding.drawView.undo()
+            binding.drawView.undo()
         }
 
         binding.btRedo.setOnClickListener {
-            //binding.drawView.redo()
+            binding.drawView.redo()
         }
     }
 }

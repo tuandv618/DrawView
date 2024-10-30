@@ -9,10 +9,14 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import com.canvas.paint.config.DrawConfig
+import java.util.Stack
 
 class DrawView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
 
     val drawConfig: DrawConfig = DrawConfig()
+
+    private val undoStack: Stack<Bitmap> = Stack()
+    private val redoStack: Stack<Bitmap> = Stack()
 
     init {
         setLayerType(LAYER_TYPE_SOFTWARE, null)
@@ -45,9 +49,9 @@ class DrawView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
         val x = event.x
         val y = event.y
         when (event.action) {
-
             MotionEvent.ACTION_DOWN -> {
                 drawConfig.clearListPointBitmap()
+                saveState() // Lưu trạng thái trước khi bắt đầu vẽ mới
                 if (!drawConfig.isEraser) {
                     drawConfig.addPointDownDraw(x, y)
                 } else {
@@ -72,5 +76,41 @@ class DrawView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
         }
 
         return true
+    }
+
+    private fun saveState() {
+        drawConfig.bitmapBuffer?.let { currentBitmap ->
+            // Tạo bản sao của bitmap hiện tại và thêm vào ngăn xếp undo
+            val bitmapCopy = currentBitmap.copy(currentBitmap.config, true)
+            undoStack.push(bitmapCopy)
+            // Xóa ngăn xếp redo khi lưu trạng thái mới
+            redoStack.clear()
+        }
+    }
+
+    fun undo() {
+        if (undoStack.isNotEmpty()) {
+            // Lấy bitmap trên cùng từ ngăn xếp undo
+            val bitmapToRestore = undoStack.pop()
+            redoStack.push(drawConfig.bitmapBuffer) // Đẩy bitmap hiện tại vào ngăn xếp redo
+            drawConfig.bitmapBuffer = bitmapToRestore // Khôi phục bitmap
+            drawConfig.bitmapBuffer?.let { bitmapBuffer ->
+                drawConfig.canvasBuffer = Canvas(bitmapBuffer)
+            }
+
+            invalidate() // Vẽ lại view sau khi undo
+        }
+    }
+
+    fun redo() {
+        if (redoStack.isNotEmpty()) {
+            val bitmapToRestore = redoStack.pop()
+            undoStack.push(drawConfig.bitmapBuffer) // Đẩy bitmap hiện tại vào ngăn xếp undo
+            drawConfig.bitmapBuffer = bitmapToRestore // Khôi phục bitmap
+            drawConfig.bitmapBuffer?.let { bitmapBuffer ->
+                drawConfig.canvasBuffer = Canvas(bitmapBuffer)
+            }
+            invalidate() // Vẽ lại view sau khi redo
+        }
     }
 }
