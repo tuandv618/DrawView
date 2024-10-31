@@ -177,10 +177,16 @@ class AttributeDraw(
 //        listDataBitmap.add(getBitmapFromDrawable(context, R.drawable.emoji01_3))
 //        listDataBitmap.add(getBitmapFromDrawable(context, R.drawable.emoji01_4))
 //        listDataBitmap.add(getBitmapFromDrawable(context, R.drawable.emoji01_5))
+
         // Data 04
         listDataBitmap.add(getBitmapFromDrawable(context, R.drawable.emoji04_1))
         listDataBitmap.add(getBitmapFromDrawable(context, R.drawable.emoji04_2))
         listDataBitmap.add(getBitmapFromDrawable(context, R.drawable.emoji04_3))
+
+        // Data 06
+//        listDataBitmap.add(getBitmapFromDrawable(context, R.drawable.emoji06_1))
+//        listDataBitmap.add(getBitmapFromDrawable(context, R.drawable.emoji06_2))
+//        listDataBitmap.add(getBitmapFromDrawable(context, R.drawable.emoji06_3))
     }
 
     /**
@@ -221,11 +227,7 @@ class AttributeDraw(
                 bitmap,
                 point.x - sizePaint / 2,
                 point.y - sizePaint / 2,
-                Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                    isAntiAlias = true
-                    isFilterBitmap = true
-                    isDither = true
-                }
+                null
             )
         }
     }
