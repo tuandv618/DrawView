@@ -14,7 +14,7 @@ import java.util.Stack
 class DrawView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
 
     /**
-     *
+     * Config các nét vẽ
      */
     val attributeDraw: AttributeDraw = AttributeDraw()
 
