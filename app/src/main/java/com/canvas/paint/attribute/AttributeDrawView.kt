@@ -176,11 +176,11 @@ class AttributeDrawView(
     fun addDataBitmap(context: Context) {
         listDataBitmap.clear()
         // Data 01
-        listDataBitmap.add(getBitmapFromDrawable(context, R.drawable.emoji01_1))
-        listDataBitmap.add(getBitmapFromDrawable(context, R.drawable.emoji01_2))
-        listDataBitmap.add(getBitmapFromDrawable(context, R.drawable.emoji01_3))
-        listDataBitmap.add(getBitmapFromDrawable(context, R.drawable.emoji01_4))
-        listDataBitmap.add(getBitmapFromDrawable(context, R.drawable.emoji01_5))
+//        listDataBitmap.add(getBitmapFromDrawable(context, R.drawable.emoji01_1))
+//        listDataBitmap.add(getBitmapFromDrawable(context, R.drawable.emoji01_2))
+//        listDataBitmap.add(getBitmapFromDrawable(context, R.drawable.emoji01_3))
+//        listDataBitmap.add(getBitmapFromDrawable(context, R.drawable.emoji01_4))
+//        listDataBitmap.add(getBitmapFromDrawable(context, R.drawable.emoji01_5))
 
         // Data 04
         listDataBitmap.add(getBitmapFromDrawable(context, R.drawable.emoji04_1))
