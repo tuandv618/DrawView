@@ -12,10 +12,10 @@ import android.graphics.PorterDuffXfermode
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import com.canvas.paint.R
-import com.canvas.paint.brush.BrushTypeDraw
+import com.canvas.paint.brush.BrushTypeDrawView
 import kotlin.math.sqrt
 
-class AttributeDraw(
+class AttributeDrawView(
     var pathPaint: Path = Path(),
     var pathEraser: Path = Path(),
     var paintPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG),
@@ -27,9 +27,9 @@ class AttributeDraw(
     var isEraser: Boolean = false,
     var bitmapBuffer: Bitmap? = null,
     private var countBitmap: Int = 0,
-    private var listPointBitmap: MutableList<PointDraw> = mutableListOf(),
+    private var listPointBitmap: MutableList<PointDrawView> = mutableListOf(),
     private var listDataBitmap: MutableList<Bitmap> = mutableListOf(),
-    var brushTypeDraw: BrushTypeDraw = BrushTypeDraw.BRUSH_BITMAP
+    var brushTypeDrawView: BrushTypeDrawView = BrushTypeDrawView.BRUSH_BITMAP
 ) {
 
     init {
@@ -78,7 +78,7 @@ class AttributeDraw(
         this.sizePaint = size
         this.spacePoint = size
         paintPaint.strokeWidth = size
-        if (brushTypeDraw == BrushTypeDraw.BRUSH_BITMAP) {
+        if (brushTypeDrawView == BrushTypeDrawView.BRUSH_BITMAP) {
             addDataBitmap(context)
         }
     }
@@ -88,12 +88,12 @@ class AttributeDraw(
      * Thêm các nét vẽ khi người dùng vẽ, tùy thuộ vào brush type
      */
     fun addPointDownDraw(x: Float, y: Float) {
-        when (brushTypeDraw) {
-            BrushTypeDraw.BRUSH_NONE -> {
+        when (brushTypeDrawView) {
+            BrushTypeDrawView.BRUSH_NONE -> {
                 addPointDown(x, y)
             }
 
-            BrushTypeDraw.BRUSH_BITMAP -> {
+            BrushTypeDrawView.BRUSH_BITMAP -> {
                 addPointBitmap(x, y)
             }
         }
@@ -103,12 +103,12 @@ class AttributeDraw(
      * Thêm các nét vẽ bằng bitmap
      */
     fun addPointMoveDraw(x: Float, y: Float) {
-        when (brushTypeDraw) {
-            BrushTypeDraw.BRUSH_NONE -> {
+        when (brushTypeDrawView) {
+            BrushTypeDrawView.BRUSH_NONE -> {
                 addPointMove(x, y)
             }
 
-            BrushTypeDraw.BRUSH_BITMAP -> {
+            BrushTypeDrawView.BRUSH_BITMAP -> {
                 addPointBitmap(x, y)
             }
         }
@@ -148,8 +148,8 @@ class AttributeDraw(
      */
     private fun addPointBitmap(x: Float, y: Float) {
         if (listPointBitmap.size == 0 || listPointBitmap.last().isPointDistance(x, y)) {
-            val pointDraw = PointDraw(PointF(x, y), countBitmap)
-            listPointBitmap.add(pointDraw)
+            val pointDrawView = PointDrawView(PointF(x, y), countBitmap)
+            listPointBitmap.add(pointDrawView)
 
             countBitmap++
             if (countBitmap == listDataBitmap.size) {
@@ -161,7 +161,7 @@ class AttributeDraw(
     /**
      * Tính toán khoảng cách để vẽ ảnh lên canvas
      */
-    private fun PointDraw.isPointDistance(x: Float, y: Float): Boolean {
+    private fun PointDrawView.isPointDistance(x: Float, y: Float): Boolean {
         return sqrt(((this.pointF.x - x) * (this.pointF.x - x) + (this.pointF.y - y) * (this.pointF.y - y)).toDouble()).toFloat() > (sizePaint + spacePoint)
     }
 
@@ -171,11 +171,11 @@ class AttributeDraw(
     fun addDataBitmap(context: Context) {
         listDataBitmap.clear()
         // Data 01
-//        listDataBitmap.add(getBitmapFromDrawable(context, R.drawable.emoji01_1))
-//        listDataBitmap.add(getBitmapFromDrawable(context, R.drawable.emoji01_2))
-//        listDataBitmap.add(getBitmapFromDrawable(context, R.drawable.emoji01_3))
-//        listDataBitmap.add(getBitmapFromDrawable(context, R.drawable.emoji01_4))
-//        listDataBitmap.add(getBitmapFromDrawable(context, R.drawable.emoji01_5))
+        listDataBitmap.add(getBitmapFromDrawable(context, R.drawable.emoji01_1))
+        listDataBitmap.add(getBitmapFromDrawable(context, R.drawable.emoji01_2))
+        listDataBitmap.add(getBitmapFromDrawable(context, R.drawable.emoji01_3))
+        listDataBitmap.add(getBitmapFromDrawable(context, R.drawable.emoji01_4))
+        listDataBitmap.add(getBitmapFromDrawable(context, R.drawable.emoji01_5))
 
         // Data 04
         listDataBitmap.add(getBitmapFromDrawable(context, R.drawable.emoji04_1))
@@ -183,9 +183,9 @@ class AttributeDraw(
         listDataBitmap.add(getBitmapFromDrawable(context, R.drawable.emoji04_3))
 
         // Data 06
-//        listDataBitmap.add(getBitmapFromDrawable(context, R.drawable.emoji06_1))
-//        listDataBitmap.add(getBitmapFromDrawable(context, R.drawable.emoji06_2))
-//        listDataBitmap.add(getBitmapFromDrawable(context, R.drawable.emoji06_3))
+        listDataBitmap.add(getBitmapFromDrawable(context, R.drawable.emoji06_1))
+        listDataBitmap.add(getBitmapFromDrawable(context, R.drawable.emoji06_2))
+        listDataBitmap.add(getBitmapFromDrawable(context, R.drawable.emoji06_3))
     }
 
     /**
@@ -204,12 +204,12 @@ class AttributeDraw(
      * Vẽ các nét vẽ lên canvas
      */
     fun draw(canvas: Canvas) {
-        when (brushTypeDraw) {
-            BrushTypeDraw.BRUSH_NONE -> {
+        when (brushTypeDrawView) {
+            BrushTypeDrawView.BRUSH_NONE -> {
                 canvas.drawPath(pathPaint, paintPaint)
             }
 
-            BrushTypeDraw.BRUSH_BITMAP -> {
+            BrushTypeDrawView.BRUSH_BITMAP -> {
                 drawPointBitmap(canvas)
             }
         }

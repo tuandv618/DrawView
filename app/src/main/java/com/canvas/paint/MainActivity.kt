@@ -3,7 +3,7 @@ package com.canvas.paint
 import android.os.Bundle
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
-import com.canvas.paint.brush.BrushTypeDraw
+import com.canvas.paint.brush.BrushTypeDrawView
 import com.canvas.paint.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -19,19 +19,19 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btnDraw.setOnClickListener {
-            binding.drawView.attributeDraw.setEraserEnable(false)
+            binding.drawView.attributeDrawView.setEraserEnable(false)
         }
 
         binding.btnEraser.setOnClickListener {
-            binding.drawView.attributeDraw.setEraserEnable(true)
+            binding.drawView.attributeDrawView.setEraserEnable(true)
         }
 
         binding.btnBrushNone.setOnClickListener {
-            binding.drawView.attributeDraw.brushTypeDraw = BrushTypeDraw.BRUSH_NONE
+            binding.drawView.attributeDrawView.brushTypeDrawView = BrushTypeDrawView.BRUSH_NONE
         }
 
         binding.btnBitmap.setOnClickListener {
-            binding.drawView.attributeDraw.brushTypeDraw = BrushTypeDraw.BRUSH_BITMAP
+            binding.drawView.attributeDrawView.brushTypeDrawView = BrushTypeDrawView.BRUSH_BITMAP
         }
 
         binding.btUndo.setOnClickListener {
@@ -44,10 +44,10 @@ class MainActivity : AppCompatActivity() {
 
         binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                if (binding.drawView.attributeDraw.isEraser) {
-                    binding.drawView.attributeDraw.setSizeStrokeEraser(progress.toFloat())
+                if (binding.drawView.attributeDrawView.isEraser) {
+                    binding.drawView.attributeDrawView.setSizeStrokeEraser(progress.toFloat())
                 } else {
-                    binding.drawView.attributeDraw.setSizeStrokePaint(
+                    binding.drawView.attributeDrawView.setSizeStrokePaint(
                         this@MainActivity,
                         progress.toFloat()
                     )

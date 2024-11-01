@@ -1,5 +1,5 @@
 package com.canvas.paint.brush
 
-enum class BrushTypeDraw {
+enum class BrushTypeDrawView {
     BRUSH_NONE, BRUSH_BITMAP
 }
