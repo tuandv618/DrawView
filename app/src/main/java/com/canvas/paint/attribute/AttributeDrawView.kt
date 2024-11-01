@@ -162,8 +162,13 @@ class AttributeDrawView(
      * Tính toán khoảng cách để vẽ ảnh lên canvas
      */
     private fun PointDrawView.isPointDistance(x: Float, y: Float): Boolean {
-        return sqrt(((this.pointF.x - x) * (this.pointF.x - x) + (this.pointF.y - y) * (this.pointF.y - y)).toDouble()).toFloat() > (sizePaint + spacePoint)
+        val dx = this.pointF.x - x
+        val dy = this.pointF.y - y
+        val distanceSquared = dx * dx + dy * dy
+        val threshold = (sizePaint + spacePoint) * (sizePaint + spacePoint) * 2
+        return distanceSquared > threshold
     }
+
 
     /**
      * khởi tạo data cho vào list bitmap
@@ -219,6 +224,11 @@ class AttributeDrawView(
      * Vẽ các bitmap theo vị trí mà người dùng đã vẽ lên
      */
     private fun drawPointBitmap(canvas: Canvas) {
+        val paint = Paint().apply {
+            isFilterBitmap = true
+            isDither = true
+            isAntiAlias = true
+        }
         listPointBitmap.forEachIndexed { index, pointDraw ->
             val bitmap = listDataBitmap[pointDraw.positionBitmap]
             val point = pointDraw.pointF
@@ -226,7 +236,7 @@ class AttributeDrawView(
                 bitmap,
                 point.x - sizePaint / 2,
                 point.y - sizePaint / 2,
-                null
+                paint
             )
         }
     }
