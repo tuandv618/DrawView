@@ -38,7 +38,7 @@ class DrawView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
 
     }
 
-    fun setListDataBitmap(){
+    fun setListDataBitmap() {
         attributeDraw.addDataBitmap(context)
     }
 
@@ -59,9 +59,6 @@ class DrawView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
         attributeDraw.bitmapBuffer = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
-        attributeDraw.bitmapBuffer?.let { bitmapBuffer ->
-            attributeDraw.canvasBuffer = Canvas(bitmapBuffer)
-        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -75,7 +72,10 @@ class DrawView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
                 if (!attributeDraw.isEraser) {
                     attributeDraw.addPointDownDraw(x, y) // Bắt đầu vẽ với điểm đầu tiên
                 } else {
-                    attributeDraw.pathEraser.moveTo(x, y) // Di chuyển path eraser đến điểm chạm nếu đang ở chế độ tẩy
+                    attributeDraw.pathEraser.moveTo(
+                        x,
+                        y
+                    ) // Di chuyển path eraser đến điểm chạm nếu đang ở chế độ tẩy
                 }
             }
 
@@ -89,6 +89,7 @@ class DrawView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
             }
 
             MotionEvent.ACTION_UP -> {
+                drawNewBitmapBuffer()
                 attributeDraw.pathPaint = Path() // Đặt lại path vẽ khi ngón tay nhấc lên
                 attributeDraw.pathEraser = Path() // Đặt lại path tẩy
                 attributeDraw.clearListPointBitmap() // Xóa danh sách điểm bitmap sau khi vẽ xong
@@ -97,6 +98,14 @@ class DrawView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
 
         return true // Trả về true để xác nhận xử lý sự kiện chạm
     }
+
+    private fun drawNewBitmapBuffer() {
+        val bitmap = Bitmap.createBitmap(measuredWidth, measuredHeight, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        this.draw(canvas)
+        attributeDraw.bitmapBuffer = bitmap
+    }
+
 
     /**
      * Lưu trạng thái các nét vẽ
@@ -128,10 +137,6 @@ class DrawView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
             val bitmapToRestore = undoStack.pop()
             redoStack.push(attributeDraw.bitmapBuffer) // Đẩy bitmap hiện tại vào ngăn xếp redo
             attributeDraw.bitmapBuffer = bitmapToRestore // Khôi phục bitmap
-            attributeDraw.bitmapBuffer?.let { bitmapBuffer ->
-                attributeDraw.canvasBuffer = Canvas(bitmapBuffer)
-            }
-
             invalidate() // Vẽ lại view sau khi undo
         }
     }
@@ -148,18 +153,12 @@ class DrawView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
             val bitmapToRestore = redoStack.pop()
             undoStack.push(attributeDraw.bitmapBuffer) // Đẩy bitmap hiện tại vào ngăn xếp undo
             attributeDraw.bitmapBuffer = bitmapToRestore // Khôi phục bitmap
-            attributeDraw.bitmapBuffer?.let { bitmapBuffer ->
-                attributeDraw.canvasBuffer = Canvas(bitmapBuffer)
-            }
             invalidate() // Vẽ lại view sau khi redo
         }
     }
 
-    fun clear(){
+    fun clear() {
         attributeDraw.bitmapBuffer = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-        attributeDraw.bitmapBuffer?.let { bitmapBuffer ->
-            attributeDraw.canvasBuffer = Canvas(bitmapBuffer)
-        }
         invalidate()
     }
 }

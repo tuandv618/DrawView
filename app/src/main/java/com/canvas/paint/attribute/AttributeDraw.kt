@@ -26,7 +26,6 @@ class AttributeDraw(
     private var colorPaint: Int = Color.BLACK,
     var isEraser: Boolean = false,
     var bitmapBuffer: Bitmap? = null,
-    var canvasBuffer: Canvas? = null,
     private var countBitmap: Int = 0,
     private var listPointBitmap: MutableList<PointDraw> = mutableListOf(),
     private var listDataBitmap: MutableList<Bitmap> = mutableListOf(),
@@ -207,7 +206,7 @@ class AttributeDraw(
     fun draw(canvas: Canvas) {
         when (brushTypeDraw) {
             BrushTypeDraw.BRUSH_NONE -> {
-                canvasBuffer?.drawPath(pathPaint, paintPaint)
+                canvas.drawPath(pathPaint, paintPaint)
             }
 
             BrushTypeDraw.BRUSH_BITMAP -> {
@@ -223,7 +222,7 @@ class AttributeDraw(
         listPointBitmap.forEachIndexed { index, pointDraw ->
             val bitmap = listDataBitmap[pointDraw.positionBitmap]
             val point = pointDraw.pointF
-            canvasBuffer?.drawBitmap(
+            canvas.drawBitmap(
                 bitmap,
                 point.x - sizePaint / 2,
                 point.y - sizePaint / 2,
@@ -236,7 +235,7 @@ class AttributeDraw(
      * Vẽ tẩy lên bitmap lên canvas
      */
     fun eraser(canvas: Canvas) {
-        canvasBuffer?.drawPath(
+        canvas.drawPath(
             pathEraser,
             paintEraser
         )
