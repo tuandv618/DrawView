@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.SeekBar
 import com.canvas.paint.R
 import com.canvas.paint.databinding.ActivityPandaBinding
 import com.canvas.paint.panda.view.CustomView
@@ -25,7 +26,20 @@ class PandaActivity : AppCompatActivity() {
             //binding.customView.disableEraser()
         }
 
+        binding.sbSize.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                binding.customView.iconScale = progress / 100f
+            }
 
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+
+            }
+
+        })
 
     }
 }

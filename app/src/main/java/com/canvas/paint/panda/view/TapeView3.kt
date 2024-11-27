@@ -31,13 +31,20 @@ class TapeView3(context: Context, attrs: AttributeSet?) : View(context, attrs) {
 
     // Danh sách các icon với kích thước khác nhau
     private val listIconBitmap = listOf(
-        BitmapFactory.decodeResource(resources, R.drawable.emoji14_1),
-        BitmapFactory.decodeResource(resources, R.drawable.emoji14_2),
-        BitmapFactory.decodeResource(resources, R.drawable.emoji14_3),
-//        BitmapFactory.decodeResource(resources, R.drawable.emoji14_4),
-//        BitmapFactory.decodeResource(resources, R.drawable.emoji01_5),
-//        BitmapFactory.decodeResource(resources, R.drawable.emoji01_6),
+        BitmapFactory.decodeResource(resources, R.drawable.emoji01_1),
+        BitmapFactory.decodeResource(resources, R.drawable.emoji01_2),
+        BitmapFactory.decodeResource(resources, R.drawable.emoji01_3),
+        BitmapFactory.decodeResource(resources, R.drawable.emoji01_4),
+        BitmapFactory.decodeResource(resources, R.drawable.emoji01_5),
+        BitmapFactory.decodeResource(resources, R.drawable.emoji01_6),
     )
+
+    // Biến scale của icon, mặc định là 1f
+    var iconScale = 1f
+        set(value) {
+            field = value
+            invalidate() // Vẽ lại khi scale thay đổi
+        }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -87,10 +94,19 @@ class TapeView3(context: Context, attrs: AttributeSet?) : View(context, attrs) {
 
         while (remainingLength > 0) {
             val icon = listIconBitmap[iconIndex % listIconBitmap.size]
-            val iconSpacing = icon.width.toFloat()
 
-            // Vẽ icon tại vị trí hiện tại
-            canvas.drawBitmap(icon, x, y, paint)
+            // Tạo một bitmap đã scale theo giá trị của iconScale
+            val scaledIcon = Bitmap.createScaledBitmap(
+                icon,
+                (icon.width * iconScale).toInt(),
+                (icon.height * iconScale).toInt(),
+                true
+            )
+
+            val iconSpacing = scaledIcon.width.toFloat()
+
+            // Vẽ icon đã scale tại vị trí hiện tại
+            canvas.drawBitmap(scaledIcon, x, y, paint)
 
             // Di chuyển đến vị trí tiếp theo theo hướng của góc angle
             x += Math.cos(angle.toDouble()).toFloat() * iconSpacing
@@ -102,5 +118,6 @@ class TapeView3(context: Context, attrs: AttributeSet?) : View(context, attrs) {
         }
     }
 }
+
 
 

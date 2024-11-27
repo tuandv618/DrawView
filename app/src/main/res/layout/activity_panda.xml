@@ -38,5 +38,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <SeekBar
+        android:id="@+id/sbSize"
+        android:min="1"
+        android:max="200"
+        android:layout_marginBottom="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/btnDraw" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
