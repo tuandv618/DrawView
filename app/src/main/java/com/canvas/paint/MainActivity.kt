@@ -62,6 +62,7 @@ class MainActivity : AppCompatActivity() {
 
         mDrawView = findViewById(R.id.draw_view)
 
+        // Đây là commit của master
         // Đây là commit của test01
     }
 
